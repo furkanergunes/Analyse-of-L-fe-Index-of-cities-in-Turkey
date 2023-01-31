@@ -1,0 +1,6 @@
+In real-life studies we usually deal with multivariate datasets.Multivariate datasets are usually complex and hard to deal with and we use multivariate statistical methods to simplfy complex data sets.
+
+Data set used in this project,Lıfe Index based on Cities on Turkey was taken from TUIK.
+Achievements gained in the lecture of Multivariate Statistical Analysis are used to analyse life index data set in this project.
+
+Methods used in the analysis of data sets are PCA(Principal Component Analysis), FA(Factor Analysis), Classification with Discriminant Analysis and Clustering Analysis.Mehtods are applied on R,SPSS and Microsoft Excel.

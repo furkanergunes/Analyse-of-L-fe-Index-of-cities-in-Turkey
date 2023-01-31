@@ -1,0 +1,15 @@
+# Conclusion {-}
+
+<!-- If we don't want Conclusion to have a chapter number next to it, we can add the `{-}` attribute. -->
+
+A preliminary study was carried out because there are too many variables and metric differences in the data set we have.It has been determined that there is a multicollinearity problem between the variables in the data set.For this reason, it was deemed appropriate to use the Principal Component Analysis method first.In this analysis, it has been investigated how many variables can be reduced due to the large number of variables.By applying principal component analysis, 41 variables and outputs that can be reduced to 7 variables were found. With these 7 variables, 77% of the variance in the data set can be explained.\
+
+Factor analysis was carried out in line with the determined 7 variables. Meaningful naming was done by looking at the loads of the factors. Discriminant analysis was performed with the newly created variables.In this analysis, a threshold value was obtained by determining the target variable. According to the values below and above this threshold value, binary classifications were made as high sociability and happiness 1, and low sociability and unhappiness 0.First of all, the assumptions of the discriminant analysis were checked. In the assumptions, the variables do not come from multivariate normal distributions. It was determined that the mean between groups was not different from each other by Wilk's Lambda Test. With Wilk's Lambda test statistic, it was concluded that the canonical discriminant function is not significant. There was no homogeneity of variance between the groups, which is the basic assumption of the discriminant analysis.The explanation rate of the total variance occurring in the group variable of the canonical correlation was determined as 14%. This value was found to be very low in terms of classification. As a result, the positive success rate (TRUE POSITIVE RATE or SENSIVITY) of the discriminant analysis was determined as %62.74.The negative success rate (TRUE NEGATIVE RATE or SPECIFITY) of the discriminant analysis was determined as %63.4.
+
+The clustering technique, which is based on the experimental unit, was also applied in the project. Firstly, it started with the determination of the number of clusters. WSS and Silhouette methods were used. It was agreed to create 4 clusters for Hierarchical clustering and 3 clusters for KMeans using these methods. Then Hierarchical clustering and K-means clustering
+Cluster analysis was carried out using methods. In line with these clustering methods, our data set
+showed good performance.\
+
+
+In line with this study, gains were obtained for the multivariate statistics lecture by using principal component analysis, factor analysis, discriminany analysis and cluster analysis methods.
+Since the assumptions and prerequisites suitable for the analysis cannot be provided and good outputs cannot be obtained,In line with this study, quadratic discriminant or (non-linear methods) logistic regression should be tried instead of linear discriminant.

@@ -1,0 +1,362 @@
+# Application of Multivariate Statistical Analysis Mehtods
+
+## Principal Component Analysis
+
+The intention of principal component analysis is to explain number of p variables that has multicollinearity problem between each other with m (less than p) variales that made with linear combination of p variables by minimum variance loss.\
+
+\setlength{\parindent}{0in}
+To apply PCA on data set.There has to be multicollinearity problem between variables.We can also determine the number of factors for Factor Analysis by using results of PCA.
+
+### KMO-Bartlett Test
+
+*H0 : p = I (correlation matrix is equal to identity matrix ) There is no multicollinearity between variables*
+
+\setlength{\parindent}{0in}
+*H1 : p $\neq$ I (correlation matrix is not equal to identity matrix ) There is multicollinearity between variables*
+
+```{r include=TRUE}
+bartlett.test(data)
+```
+
+with 95% confidence There is enough evidence to reject H0. There is multicollinearity problem between variables.Dataset is proper for PCA.
+
+### Anti-Image KMO values
+```{r}
+KMO(data)
+```
+variables except X6,X12,X13,X21,X22,X26,X31 and X32 has KMO over 0.6.
+according to KMO (Measure of Sampling Adequacy) criteria. $KMO= 0.770 \ge 0.6$ since the KMO greater than 0.330. the information provided by the sample in data set is sufficient.
+
+### Determining Number of Components
+
+While determining the number of components, criteria is to select the eigenvalues greater than 1 and consider the cumulative total variance explained.
+Scree plot is used to determine eigenvalues.
+```{r}
+library(psych)
+cor_mat <- cor(data)
+VSS.scree(cor_mat,main="Scree Plot")
+
+print(round(eigen(cor_mat)$values,2))
+
+tba.cor <- princomp(data,cor=T)
+summary(tba.cor)
+```
+\setlength{\parindent}{0in}
+7 component are selected by considering the total variance explained and eigenvalues.73.89% of the total variance of original dataset is explained with 7 components
+
+```{r include=TRUE}
+library(FactoMineR)
+TBA2 <- PCA(data,scale.unit = T,ncp=7,graph=F)
+```
+
+### Matrix of Loadings
+
+![Loadings of variables at each component](C:/Users/furka/Desktop/images/comp_mat.png)
+
+At the loadings matrix,There are effect scores of variables to components.criteria for scores is to be greater than 0.333 or lesser than -0.333.Scores out of this boundries are not considered.Scores that greater than 0.333 are painted red.Scores that lesser than -0.333 are painted green.
+
+- 1. Component takes scores from 30 variable.
+- 2. Component takes scores from 21 variable.
+- 3. Component takes scores from 6 variable.
+- 4. Component takes scores from 6 variable.
+- 5. Component takes scores from 6 variable.
+- 6. Component takes scores from 6 variable.
+- 7. Component takes scores from 2 variable.
+
+### PCA-Biplot Graph
+
+```{r include=TRUE}
+fviz_pca_biplot(TBA2)
+```
+At biplot graph,in 2 dimension how close variables and observations are to dimensions is seen.
+
+## Factor Analysis
+
+Factor analysis is a method that helps to explain a structure that is explained with p number of variables that have multicollinearity between each other, with fewer new variables that are not related.\
+
+\setlength{\parindent}{0in}
+Factor analysis is an extension of Principal Component Analysis.Before the Factor Analysis PCA must be applied.Essential requirement for factor analysis is that if the dataset is consistent or not with the previously defined structure.
+
+\setlength{\parindent}{0in}
+There are several methods to apply Factor Analysis."Maximum Likelihood" Method is used in this study.
+
+```{r include=TRUE}
+FA <- factanal(x=data,factors=7,rotation="varimax")
+```
+
+
+### Communalities.
+
+```{r}
+communalities <- rowSums(FA$loadings^2)
+```
+![Explained variance ratios of original variables at Factors](C:/Users/furka/desktop/images/FA_comm.png)
+
+```{r include=TRUE}
+data <- data[,-c(21,26,31)]
+FA <- factanal(x=data,factors=7,rotation="varimax",scores = "regression")
+```
+
+X21,X26 and X31 variables are removed from FA because explained variance rates of these variables are quiet low.
+
+![Explained total variance of original dataset with 7 factor](C:/Users/furka/desktop/images/FA_var.png)
+\
+\setlength{\parindent}{0in}
+After X21,X26 and X31 removed from dataset. Total variance explained of original dataset is increased to 77.41%.
+
+### Residual Matrix
+
+Residual matrix is the difference between the correlation matrix of original data and the correlation matrix of the variables in FA model.Residuals must not be higher than 0.05.
+Ratio of residuals greater than 0.05 to the total must be less than 20%.\
+
+\setlength{\parskip}{0in}
+The ratio of residuals greater than 0.05 to the total is determined as 15% so our FA model is sufficient enough.
+
+### Naming Factors
+
+- F1: High Life Satisfaction
+- F2: Middle Income
+- F3: Satisfaction of Public Services
+- F4: High Sociality and Happiness
+- F5: Employment Rate
+- F6: Rural Life
+- F7: Education Level
+
+### Factor Graph
+
+```{r include=TRUE}
+plot(FA$loadings[,1],FA$loadings[,2],xlab="F1",ylab="F2")
+abline(v=0,h=0)
+text(FA$loadings[,1],FA$loadings[,2]-.05,labels=1:38,cex=0.8)
+```
+
+in graph of dimensions of PC1 and PC2 we see that x32,x23,x2,x31... variables are more close to 
+PC2 (y-axis).X35,X34,X18... variables are far away to both PC1 and PC2 dimensions.
+
+## Discriminant Analysis
+
+Discriminant analysis is a linear binary classification method, unlike logistic regression it requires independent variables to distribute normally.Discriminant analysis basically splits the dataset into two pieces by grouping variable.Discriminant analysis creates a rule by using the two datasets and uses this rule on a new observation to predict if it is 0 or 1.s
+
+### Descriptive Statistics
+
+```{r include=TRUE}
+new_scores <- FA$scores
+new_scores <- as.data.frame(new_scores)
+colnames(new_scores) <- c("High Life Satisfaction",
+"Middle Income",
+"Satisfaction of Public Services",
+"High Sociality and Happiness",
+"Employment Rate",
+"Rural Life",
+"Education Level")
+summary(new_scores)
+```
+### Normallity Test
+
+```{r}
+HZ.test(new_scores)
+```
+*H0: Data distributes Multivariate Normal*\
+\setlength{\parindent}{0in}
+*H1: Data does not distribute Multivariate Normal*
+
+p-value ~= 0 There is enough evidence to reject H0.Data does not distibute multivariate normal.
+
+### Grouping Variable
+
+Between factor variables,High Sociallity and Happines is selected for classification.Values lesser than or equal to 0 are coded as 0 and Values Greater than 0 are coded as 1.The reason threshold is selected 0 because data is distributed around mean 0 symmetrical.
+
+```{r include=TRUE}
+hist(new_scores$`High Sociality and Happiness`)
+
+cat_var <- c()
+for(x in new_scores$`High Sociality and Happiness`) {
+  if (x < 0) {
+    cat_var <- c(cat_var,0)
+  } else {
+    cat_var <- c(cat_var,1)
+  }
+}
+
+new_scores$cat_var <- cat_var
+new_scores$cat_var <- as.factor(new_scores$cat_var)
+new_scores <- new_scores[,-4]
+
+table(new_scores$cat_var)
+```
+frequency table of grouping variable is listed above.
+
+```{r include=TRUE}
+library(MASS)
+disc_lda <- lda(new_scores$cat_var~. , data=new_scores)
+
+
+predicted_val <- predict(disc_lda,newdata=new_scores[,-7])
+```
+
+
+### Wilk's Lambda Test
+
+Wilk's lambda test used to test if there is difference between mean by grouping variable.
+
+```{r include=TRUE}
+library(rrcov)
+Wilks.test(new_scores[,-7],grouping=new_scores$cat_var,method="c")
+```
+*H0 : There is no difference between means by grouping variable*\
+\setlength{\parindent}{0in}
+*H1 : There is difference between mean by grouping variable*
+
+p-value ~= 0.89. There is not enough evidence to reject H0 so There is no difference between means by grouping variable.
+
+
+### BoxM Test.
+
+BoxM test used to test if the variance-covariance matrixes are equal by grouping variable.
+
+```{r include=TRUE}
+boxM(new_scores[,-7],group=new_scores$cat_var)
+```
+*H0 : Variance-Covariance matrices are equal by grouping variable.*\
+\setlength{\parskip}{0in}
+*H1 : Variance-Covariance matrices are not equal by grouping variable*
+
+p-value ~= 0.0004, There is enough evidence to reject H0 so Variance-Covariance matrices are not equal by grouping variable.
+
+### Canonic Discriminant Function
+Canonic Discriminant Function gives the explained variance rate on the grouping variable.Its  better as close to 1.
+
+![Summary of Canonical Discriminant Function](C:/Users/furka/Desktop/images/can_func.png)
+
+*H0: Canonical Discriminant function is not statically significant*\
+\setlength{\parindent}{0in}
+*H1: Canonical Discriminant function is statistically significant*
+
+p-value ~=0.95. There is not enough evidence to reject H0.Canonical Discriminant Function is not statistically significant.
+
+### Fisher's Linear Discriminant Function
+
+To classify the observations, values on this function used to determine whether the observation belongs to 0 or 1.
+
+![Fisher's Linear Discriminant Function](C:/Users/furka/Desktop/images/fish_canfunc.png)
+#### Discriminant Equations
+
+ Unhappy(0) = -0.702  - 0.029(High Life Satisfaction) - 0.097(Middle Income) + 
+0.025(Satisfaction of Public Services) + 0.068(Employment Rate) - 0.015(Rural Life)
+- 0.046(Education Level)\
+
+\setlength{\parindent}{0in}
+Happy(1) = -0.706  + 0.034(High Life Satisfaction) + 0.116(Middle Income) - 
+0.029 (Satisfaction of Public Services) - 0.081(Employment Rate) + 0.018(Rural Life)
++ 0.055(Education Level)
+
+
+### Classification Results 
+
+```{r include=TRUE}
+table(new_scores$cat_var, predicted_val$class, dnn = c('Actual Group', 'Predicted Group'))
+```
+
+Sensivity (True Positive Rate) = 32/51 = 0.6274 \
+\setlength{\parindent}{0in}
+Specifity (True Negative Rate) = 19/30 = 0.634
+
+## Clustering
+
+### Euclidean Distances Between Observations
+
+
+```{r include=TRUE}
+k1 <- new_scores[,-7]
+sk1 <- k1 %>% mutate_if(is.numeric, scale)
+
+library(factoextra)
+distance <- get_dist(sk1,method = "euclidean")
+
+fviz_dist(distance, gradient = list(low = "#00AFBB", mid = "white", high = "#FC4E07"))
+```
+\
+\setlength{\parindent}{0in}
+
+Heatmap graph is drawn with euclidean distances.
+
+### Determining Number of Clusters 
+
+To apply clustering methods,We have to determine the number of clusters first.
+To determine optimal number of clusters there are a few methods:
+- Within Sum of Square (WSS)
+- Average Sillhouette Indeks
+- Gap Statistic
+In this project.We used WSS and Silhoutte methods to determine number of clusters.
+
+
+#### WSS Method
+
+```{r include=TRUE}
+library(factoextra)
+fviz_nbclust(sk1, kmeans, method = "wss")
+```
+
+#### Silhoutte Graph
+
+```{r include=TRUE}
+fviz_nbclust(sk1, kmeans, method = "silhouette")
+```
+\
+\setlength{\parindent}{0in}
+number of clusters is determined 3 based Silhoutte graph.
+3 or 4 looks like a good choice for number of clusters based on wss and silhoutte graph.
+
+### Hierarchical Clustering
+
+```{r include=TRUE}
+library(magrittr)
+library(ggdendro)
+library(dendextend)
+
+dend <- distance %>% dist %>% hclust %>% as.dendrogram %>% set("branches_k_color", k=4) %>% set("branches_lwd", 3.5) %>% set("labels_colors","brown") %>% set("labels_cex", c(1.2, 1.2, 1.2)) %>% set("leaves_pch", 19) %>% set("leaves_col", c("blue", "red"))
+plot(dend)
+
+```
+\
+\setlength{\parindent}{0in}
+
+its seen number of 4 clusters is sufficient for hierarchical clustering.
+
+#### Number of members in each cluster.
+```{r include=TRUE}
+member_hc_c = cutree(dend,4)
+table(member_hc_c)
+```
+
+
+### K-Means Clustering
+
+K-Means is an unsupervised learning clustering algorithm.K represent the number of clusters and its a hyperparameter that should be determined before the application of method.
+There are K clusters and center of every cluster is the means of members of that cluster and that is why it's called K-means
+ 
+ 
+```{r include=TRUE}
+kmeans.re <- kmeans(sk1, centers = 3, nstart=25)
+library(factoextra)
+fviz_cluster(kmeans.re, data = sk1,ellipse=T,ellipse.type="convex",shwo.clust.cent=T,pointsize=2)
+
+```
+\
+\setlength{\parindent}{0in}
+it is seen that with number of 3 clusters KMeans gives a good result.
+
+
+#### Frequencies of member on each cluster
+```{r include=TRUE}
+members = kmeans.re$cluster
+table(members)
+```
+
+#### Cluster Centers
+
+```{r include=TRUE}
+centers = kmeans.re$centers
+centers
+```
+

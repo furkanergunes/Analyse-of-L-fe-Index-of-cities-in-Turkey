@@ -1,0 +1,32 @@
+\babel@toc {english}{}\relax 
+\contentsline {chapter}{Chapter 1: Presentation of Data-Set}{1}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Variables}{1}{section.1.1}%
+\contentsline {section}{\numberline {1.2}\emph {Multinormality Test}}{4}{section.1.2}%
+\contentsline {section}{\numberline {1.3}Correlation Matrix}{5}{section.1.3}%
+\contentsline {subsection}{\numberline {1.3.1}List of Correlated Variables}{6}{subsection.1.3.1}%
+\contentsline {subsection}{\numberline {1.3.2}Determinant of Correlation Matrix}{7}{subsection.1.3.2}%
+\contentsline {chapter}{Chapter 2: Application of Multivariate Statistical Analysis Mehtods}{9}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Principal Component Analysis}{9}{section.2.1}%
+\contentsline {subsection}{\numberline {2.1.1}KMO-Bartlett Test}{9}{subsection.2.1.1}%
+\contentsline {subsection}{\numberline {2.1.2}Anti-Image KMO values}{10}{subsection.2.1.2}%
+\contentsline {subsection}{\numberline {2.1.3}Determining Number of Components}{10}{subsection.2.1.3}%
+\contentsline {subsection}{\numberline {2.1.4}Matrix of Loadings}{13}{subsection.2.1.4}%
+\contentsline {subsection}{\numberline {2.1.5}PCA-Biplot Graph}{14}{subsection.2.1.5}%
+\contentsline {section}{\numberline {2.2}Factor Analysis}{14}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Communalities.}{15}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}Residual Matrix}{16}{subsection.2.2.2}%
+\contentsline {subsection}{\numberline {2.2.3}Naming Factors}{16}{subsection.2.2.3}%
+\contentsline {subsection}{\numberline {2.2.4}Factor Graph}{16}{subsection.2.2.4}%
+\contentsline {section}{\numberline {2.3}Discriminant Analysis}{17}{section.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}Descriptive Statistics}{17}{subsection.2.3.1}%
+\contentsline {subsection}{\numberline {2.3.2}Normallity Test}{18}{subsection.2.3.2}%
+\contentsline {subsection}{\numberline {2.3.3}Grouping Variable}{19}{subsection.2.3.3}%
+\contentsline {subsection}{\numberline {2.3.4}Wilk's Lambda Test}{20}{subsection.2.3.4}%
+\contentsline {subsection}{\numberline {2.3.5}BoxM Test.}{21}{subsection.2.3.5}%
+\contentsline {subsection}{\numberline {2.3.6}Canonic Discriminant Function}{21}{subsection.2.3.6}%
+\contentsline {subsection}{\numberline {2.3.7}Fisher's Linear Discriminant Function}{22}{subsection.2.3.7}%
+\contentsline {subsection}{\numberline {2.3.8}Classification Results}{22}{subsection.2.3.8}%
+\contentsline {section}{\numberline {2.4}Clustering}{23}{section.2.4}%
+\contentsline {subsection}{\numberline {2.4.1}Distances Between Observations}{23}{subsection.2.4.1}%
+\contentsline {chapter}{Sonuç}{25}{chapter*.9}%
+\contentsline {chapter}{Kaynaklar}{27}{chapter*.10}%
