@@ -1,2 +1,5 @@
-# HAR Project
-Human activity recognition with wearable devices and smartphone data
+# 
+Multivariate statistical analysis project
+
+Analyse-of-Life-Index-of-cities-in-Turkey
+
